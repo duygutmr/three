@@ -19,13 +19,15 @@ const scene = new THREE.Scene()
 
 //Axes helper
 
-const axeshElper = new THREE.AxesHelper()
-scene.add(axeshElper)
+// const axeshElper = new THREE.AxesHelper()
+// scene.add(axeshElper)
 
 /**
  * Textures
  */
 const textureLoader = new THREE.TextureLoader()
+const matcapTexture = textureLoader.load('./textures/matcaps/4.png')
+
 
 
 /**
@@ -61,9 +63,33 @@ const textureLoader = new THREE.TextureLoader()
         //center the text, easy way
         geometry.center()
 
-        const textMaterial = new THREE.MeshBasicMaterial()
-        const text = new THREE.Mesh(geometry, textMaterial)
+        const material = new THREE.MeshMatcapMaterial()
+        material.matcap = matcapTexture
+        const text = new THREE.Mesh(geometry, material)
         scene.add(text)
+
+
+        const donutGeomerty = new THREE.TorusBufferGeometry(0.3, 0.20, 16, 100);
+
+        for(let i= 0; i < 100; i++){
+           
+            const donut = new THREE.Mesh(donutGeomerty, material)
+
+
+            donut.position.x = (Math.random() - 0.5) * 10
+            donut.position.y = (Math.random() - 0.5) * 10
+            donut.position.z = (Math.random() - 0.5) * 10
+
+
+            donut.rotation.x = Math.random() * Math.PI
+            donut.rotation.y = Math.random() * Math.PI
+
+            const scale = Math.random();
+            donut.scale.set(scale,scale,scale)
+
+            scene.add(donut)
+        }
+
     });
 
 /**
